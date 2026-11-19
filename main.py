@@ -1,0 +1,86 @@
+import sys
+import numpy as np
+
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QPushButton,
+                               QVBoxLayout, QHBoxLayout, QFileDialog)
+
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg, NavigationToolbar2QT
+from matplotlib.figure import Figure
+
+from About import About_window
+
+
+class IceCreamWindow(QMainWindow):
+
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle('Ice Cream Sales')
+        self.setGeometry(100, 100, 900, 650)
+
+        # Buttons
+        self.load_button = QPushButton('Load File')
+        self.load_button.clicked.connect(self.load_file)
+
+        self.about_button = QPushButton('About')
+        self.about_button.clicked.connect(self.open_about)
+
+        buttons_layout = QHBoxLayout()
+        buttons_layout.addWidget(self.load_button)
+        buttons_layout.addWidget(self.about_button)
+
+        # Matplotlib graph + toolbar (zoom, pan, save as image)
+        self.figure = Figure()
+        self.canvas = FigureCanvasQTAgg(self.figure)
+        self.toolbar = NavigationToolbar2QT(self.canvas, self)
+
+        # Main layout
+        main_layout = QVBoxLayout()
+        main_layout.addLayout(buttons_layout)
+        main_layout.addWidget(self.toolbar)
+        main_layout.addWidget(self.canvas)
+
+        central_widget = QWidget()
+        central_widget.setLayout(main_layout)
+        self.setCentralWidget(central_widget)
+
+        self.draw_graph()
+
+    def load_file(self):
+        file_name, _ = QFileDialog.getOpenFileName(self, 'Open CSV File', '',
+                                                   'CSV Files (*.csv)')
+        if file_name == '':
+            return  # the user pressed Cancel
+
+        # MY CODE HERE
+
+    def draw_graph(self):
+        # Temporary placeholder graph - replace with your own data later
+        self.figure.clear()
+        ax = self.figure.add_subplot()
+
+        x = np.linspace(0, 10, 100)
+        y = np.sin(x)
+
+        ax.plot(x, y)
+        ax.set_title('Placeholder Graph')
+        ax.set_xlabel('X')
+        ax.set_ylabel('Y')
+        ax.grid(True)
+
+        self.canvas.draw()
+
+    def open_about(self):
+        self.about_window = About_window()
+        self.about_window.show()
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+
+    # Load the style file
+    with open('style.qss', 'r') as file:
+        app.setStyleSheet(file.read())
+
+    window = IceCreamWindow()
+    window.show()
+    app.exec()
