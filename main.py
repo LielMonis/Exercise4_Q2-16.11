@@ -43,29 +43,39 @@ class IceCreamWindow(QMainWindow):
         central_widget.setLayout(main_layout)
         self.setCentralWidget(central_widget)
 
+        self.temps = []     #רשימת הטמפרטורות השונות
+        self.revs = []      #רשימת הרווחים השונים
+
         self.draw_graph()
 
+
     def load_file(self):
-        file_name, _ = QFileDialog.getOpenFileName(self, 'Open CSV File', '',
-                                                   'CSV Files (*.csv)')
+        file_name, _ = QFileDialog.getOpenFileName(self, 'Open CSV File', '', 'CSV Files (*.csv)')
         if file_name == '':
             return  # the user pressed Cancel
+        
+        with open(file_name, 'r') as f:
+            next(f)             #מקדם אותנו שורה- קופץ מעל שורה אחת.
+            self.temps = []         #שורות אלה יבטיחו כי הרשימות יתקרוקנו מהתוכן במצב של העלאת מספר קבצים אחד אחרי השני
+            self.revs = []
+            for line in f:
+                parts = line.split(',')
+                self.temps.append(float(parts[0]))         #הפיכה ממחרוזת של מספר *לא שלם* למספר לא שלם כערך
+                self.revs.append(int(parts[1]))     #למרות שברכיב זה מופיעה פקודת ירידת השורה, ההגדרה כמספר שלם תמשוך רק את המספר
 
-        # MY CODE HERE
+        self.draw_graph()
 
     def draw_graph(self):
-        # Temporary placeholder graph - replace with your own data later
         self.figure.clear()
         ax = self.figure.add_subplot()
+        ax.scatter(self.temps,self.revs,s=1)        #הנתונים נלקחים מרשימת הטמפ ורשימת הרווחים וכך נוצר תרשים עם נקודות בגודל 1 (כנדרש) 
 
-        x = np.linspace(0, 10, 100)
-        y = np.sin(x)
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
 
-        ax.plot(x, y)
-        ax.set_title('Placeholder Graph')
-        ax.set_xlabel('X')
-        ax.set_ylabel('Y')
-        ax.grid(True)
+        ax.set_title('Revenues per Temperature in USA on the 14.07.2026')
+        ax.set_xlabel('Temperature [*c]')
+        ax.set_ylabel('Revenues [$]')
 
         self.canvas.draw()
 
