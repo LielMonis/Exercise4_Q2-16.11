@@ -77,13 +77,22 @@ class IceCreamWindow(QMainWindow):
         ax.set_xlabel('Temperature [°c]')
         ax.set_ylabel('Revenues [$]')
 
+        if len(self.temps) > 0:                                     #כשהחלון נפתח והרשימות ריקות, לא יצוייר גרף לינארי
+            m , b = np.polyfit(self.temps,self.revs,1)              #ערכי האיקס וה-וואי. 1 לצורך יצירת קו ישר. הפעלת הפונקציה מספקת שני ערכים- הראשון שיפוע והשני חיתוך עם ציר וואי
+            x_line = np.array([min(self.temps), max(self.temps)])   #הקו מוגדר ע"י שני ערכים- התחלתי וסופי. מתוך רשימת ערכי הציר האופקי יחולצו הערכים המינ' ומקס.     
+            y_line = m * x_line + b                                 #הפעולת הכפלה ומציאת התמונה מבוצעת על שתי הנקודות בעת אחת
+            ax.plot(x_line, y_line, color='red', linewidth=2,
+                    label=f'y = {m:.2f}x + {b:.2f}')
+            ax.legend()
+
+
         self.canvas.draw()
 
     def open_about(self):
         self.about_window = About_window()
         self.about_window.show()
 
-
+    
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
