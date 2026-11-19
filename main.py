@@ -70,11 +70,11 @@ class IceCreamWindow(QMainWindow):
         ax = self.figure.add_subplot()
         ax.scatter(self.temps,self.revs,s=1)        #הנתונים נלקחים מרשימת הטמפ ורשימת הרווחים וכך נוצר תרשים עם נקודות בגודל 1 (כנדרש) 
 
-        ax.spines['top'].set_visible(False)
-        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)         #מוחק את המסגרת העליונה של הגרף
+        ax.spines['right'].set_visible(False)       #מוחק את המסגרת הימנית של הגרף
 
-        ax.set_title('Revenues per Temperature in USA on the 14.07.2026')
-        ax.set_xlabel('Temperature [*c]')
+        ax.set_title('Ice Cream Revenues per Temperature in USA')
+        ax.set_xlabel('Temperature [°c]')
         ax.set_ylabel('Revenues [$]')
 
         self.canvas.draw()
