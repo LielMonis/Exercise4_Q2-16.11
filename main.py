@@ -9,6 +9,18 @@ from matplotlib.figure import Figure
 
 from About import About_window
 
+class MyToolbar(NavigationToolbar2QT):
+    # Keep only the buttons we need (None = a separator line between groups)
+    toolitems = [
+        ('Home', 'Reset original view', 'home', 'home'),
+        ('Back', 'Back to previous view', 'back', 'back'),
+        ('Forward', 'Forward to next view', 'forward', 'forward'),
+        (None, None, None, None),
+        ('Pan', 'Left button pans, Right button zooms', 'move', 'pan'),
+        ('Zoom', 'Zoom to rectangle', 'zoom_to_rect', 'zoom'),
+        (None, None, None, None),
+        ('Save', 'Save the figure', 'filesave', 'save_figure'),
+    ]
 
 class IceCreamWindow(QMainWindow):
 
@@ -31,7 +43,7 @@ class IceCreamWindow(QMainWindow):
         # Matplotlib graph + toolbar (zoom, pan, save as image)
         self.figure = Figure()
         self.canvas = FigureCanvasQTAgg(self.figure)
-        self.toolbar = NavigationToolbar2QT(self.canvas, self)
+        self.toolbar = MyToolbar(self.canvas, self)
 
         # Main layout
         main_layout = QVBoxLayout()
@@ -74,7 +86,7 @@ class IceCreamWindow(QMainWindow):
         ax.spines['right'].set_visible(False)       #מוחק את המסגרת הימנית של הגרף
 
         ax.set_title('Ice Cream Revenues per Temperature in USA')
-        ax.set_xlabel('Temperature [°c]')
+        ax.set_xlabel('Temperature [°C]')
         ax.set_ylabel('Revenues [$]')
 
         if len(self.temps) > 0:                                     #כשהחלון נפתח והרשימות ריקות, לא יצוייר גרף לינארי
@@ -91,7 +103,7 @@ class IceCreamWindow(QMainWindow):
         self.about_window = About_window()
         self.about_window.show()
 
-    
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
