@@ -1,4 +1,5 @@
 import sys
+import os
 import numpy as np
 
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QPushButton,
@@ -74,6 +75,9 @@ class IceCreamWindow(QMainWindow):
                 parts = line.split(',')
                 self.temps.append(float(parts[0]))         #הפיכה ממחרוזת של מספר *לא שלם* למספר לא שלם כערך
                 self.revs.append(int(parts[1]))     #למרות שברכיב זה מופיעה פקודת ירידת השורה, ההגדרה כמספר שלם תמשוך רק את המספר
+
+        short_name = os.path.basename(file_name)                    # Only the file name, without the folders before it
+        self.setWindowTitle(f'Ice Cream Sales - {short_name}')
 
         self.draw_graph()
 
