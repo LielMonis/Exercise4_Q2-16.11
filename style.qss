@@ -1,10 +1,10 @@
 QMainWindow {
-    background-color: #fdf6ec;
+    background-color: #abd7c4;
 }
 
 QPushButton {
-    background-color: #f48fb1;
-    color: white;
+    background-color: #70de8f;
+    color: black;
     font-size: 16px;
     font-weight: bold;
     padding: 8px 16px;
@@ -12,14 +12,14 @@ QPushButton {
 }
 
 QPushButton:hover {
-    background-color: #ec407a;
+    background-color: #33d255;
 }
 
 QPushButton:pressed {
-    background-color: #c2185b;
+    background-color: #24d75d;
 }
 
 QToolBar {
-    background-color: #fce4ec;
+    background-color: #a6eec4;
     border: none;
 }

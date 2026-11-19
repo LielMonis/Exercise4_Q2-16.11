@@ -85,7 +85,6 @@ class IceCreamWindow(QMainWindow):
                     label=f'y = {m:.2f}x + {b:.2f}')
             ax.legend()
 
-
         self.canvas.draw()
 
     def open_about(self):
